@@ -93,11 +93,25 @@ services:
         networks:
             - kirt08
 
+    grafana:
+        container_name: grafana
+        image: grafana/grafana:10.2.3
+        restart: unless-stopped
+        ports:
+          - "3000:3000"
+        volumes:
+          - grafana-storage:/var/lib/grafana
+        depends_on:
+          - prometheus
+        networks:
+          - kirt08
+
 
 volumes:
     postgres_data:
     redis_data:
     rabbitmq_data:
+    grafana-storage:
 
 networks:
     kirt08:
