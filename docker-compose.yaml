@@ -116,6 +116,33 @@ services:
         networks:
             - kirt08
 
+    loki:
+        container_name: loki
+        image: grafana/loki:2.9.1
+        restart: unless-stopped
+        volumes:
+            - ./loki-config.yml:/etc/loki/config.yaml
+            - ./loki-data:/loki
+            - ./loki-wal:/wal
+        command: -config.file=/etc/loki/config.yaml
+        ports:
+            - "3100:3100"
+        networks:
+            - kirt08
+
+    promtail:
+        container_name: promtail
+        image: grafana/promtail:2.9.1
+        volumes:
+            - ./promtail-config.yml:/etc/promtail/config.yml
+            - ../logs:/var/log/services/auth/
+        command: -config.file=/etc/promtail/config.yml
+        privileged: true
+        ports:
+            - "9080:9080"
+        networks:
+            - kirt08
+
 volumes:
     postgres_data:
     redis_data:
