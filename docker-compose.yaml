@@ -143,11 +143,27 @@ services:
         networks:
             - kirt08
 
+    mongo:
+        container_name: mongo
+        image: mongo:6
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongo_data:/data/db
+        networks:
+            - kirt08
+
+
 volumes:
     postgres_data:
     redis_data:
     rabbitmq_data:
     grafana-storage:
+    mongo_data:
 
 networks:
     kirt08:
